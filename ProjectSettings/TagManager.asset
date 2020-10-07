@@ -4,10 +4,14 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - middle_floor
-  - left_floor
-  - right_floor
-  - column
+  - Reinforcements
+  - Bond Beams
+  - Thin Foam
+  - Thick Foam
+  - Cinder Blocks
+  - Bricks
+  - Pintel Ties
+  - Misc Objects
   layers:
   - Default
   - TransparentFX

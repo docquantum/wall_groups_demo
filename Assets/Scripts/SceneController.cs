@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,9 +31,19 @@ public class SceneController : MonoBehaviour
 
     private Dictionary<GameObject, bool> objDict;
 
+    public static bool test = false;
+
+    private List<Toggle> toggleList;
+
     private float totalCost = 0.0f;
 
     private float totalR = 0.0f;
+
+    private string lastSelTag = "";
+
+    [SerializeField] [Range(0f, 0.01f)]
+    private float mouseSensitivity = 0.005f;
+    private Vector3 lastMousePosition = Vector3.zero;
 
     void Start()
     {
@@ -44,7 +55,7 @@ public class SceneController : MonoBehaviour
         else
         {
             InitializeObjects();
-            CalculateCostAndR();
+            //CalculateCostAndR();
         }
         if (objUIPrefab == null)
             Debug.LogError("No object UI prefab configured!");
@@ -52,7 +63,7 @@ public class SceneController : MonoBehaviour
             Debug.LogError("No main UI prefab configured!");
         else
         {
-            mainUIInst = Instantiate(mainUIPrefab);
+            InitializeUI();
             MainUIController();
         } 
     }
@@ -82,10 +93,28 @@ public class SceneController : MonoBehaviour
             }
         }
     }
+    
+    void InitializeUI()
+    {
+        mainUIInst = Instantiate(mainUIPrefab);
+        if(mainUIInst != null)
+        {
+            toggleList = mainUIInst.GetComponentsInChildren<Toggle>(true).ToList();
+            List<Toggle> toRemove = new List<Toggle>();
+            foreach (var toggle in toggleList)
+            {
+                if (toggle.tag != "Untagged")
+                    toggle.onValueChanged.AddListener((change) => ToggleGroupExists(toggle.tag));
+                else
+                    toRemove.Add(toggle);
+            }
+            toggleList.RemoveAll((t) => toRemove.Contains(t));
+        }
+    }
 
     /**
      * Calculates the total cost and R value given all the objects currently enabled in the scene. 
-     */ 
+     */
     void CalculateCostAndR()
     {
         float newCost = 0f;
@@ -113,8 +142,19 @@ public class SceneController : MonoBehaviour
      */ 
     void MainUIController()
     {
-        if (mainUIInst != null)
-            mainUIInst.GetComponentInChildren<Text>().text = $"Cost: ${totalCost:F2}\nR: {totalR}";
+        if (mainUIInst == null)
+            return;
+
+        string builtString = "";
+        builtString += "Currently Enabled:";
+        foreach(var t in toggleList)
+        {
+            if (t.isOn)
+                builtString += $"\n - {t.tag}";
+        }
+
+        builtString += $"\nCurrently Selected:\n {lastSelTag}";
+        mainUIInst.GetComponentInChildren<Text>().text = builtString;
     }
 
     void CreateObjectUI(GameObject obj)
@@ -137,8 +177,7 @@ public class SceneController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                camera.GetComponent<CameraController>().SetClickedObject(hit.collider.gameObject);
-                CreateObjectUI(hit.collider.gameObject);
+                SelectAllObjects(hit.collider.gameObject);
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -149,9 +188,38 @@ public class SceneController : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit))
             {
-                ToggleObjectExist(hit.collider.gameObject);
+                ToggleGroupExists(hit.transform.gameObject);
             }
         }
+    }
+
+    void SelectAllObjects(GameObject obj)
+    {
+        camera.GetComponent<CameraController>().DestroyClickedObject();
+        GameObject combinedObject = new GameObject($"Combined {obj.tag} Object");
+        combinedObject.AddComponent<MeshFilter>();
+        List<MeshFilter> allMeshFilters = new List<MeshFilter>();
+        foreach (var keyval in objDict)
+        {
+            if (keyval.Key.tag == obj.tag)
+            {
+                allMeshFilters.AddRange(keyval.Key.GetComponentsInChildren<MeshFilter>());
+            }
+        }
+       
+        CombineInstance[] combine = new CombineInstance[allMeshFilters.Count];
+        for (int i = 0; i < allMeshFilters.Count; i++)
+        {
+            combine[i].mesh = allMeshFilters[i].mesh;
+            combine[i].transform = allMeshFilters[i].transform.localToWorldMatrix;
+        }
+
+        combinedObject.GetComponentInChildren<MeshFilter>().mesh.CombineMeshes(combine);
+        combinedObject.SetActive(false);
+
+        camera.GetComponent<CameraController>().SetClickedObject(combinedObject);
+        lastSelTag = obj.tag;
+        MainUIController();
     }
 
     /**
@@ -182,11 +250,54 @@ public class SceneController : MonoBehaviour
         CalculateCostAndR();
     }
 
+    void ToggleGroupExists(string tag)
+    {
+        var tempList = new List<GameObject>();
+        foreach (var keyval in objDict)
+        {
+            if (keyval.Key.tag == tag)
+                tempList.Add(keyval.Key);
+        }
+        foreach (var obj in tempList)
+        {
+            var newState = !objDict[obj];
+            obj.SetActive(newState);
+            objDict[obj] = newState;
+        }
+        MainUIController();
+    }
+
+    void ToggleGroupExists(GameObject obj)
+    {
+        foreach (var toggle in toggleList)
+        {
+            if (toggle.tag == obj.tag)
+                toggle.isOn = !toggle.isOn;
+        }
+    }
+
     void CameraRotator()
     {
-        // mouse orbit around object (middle click?)
-        // Also, maybe keyboard orbit?
-        // Could also add UI controls.
-        // Maybe mobile support if we get there.
+        if (Input.GetMouseButtonDown(2))
+        {
+            lastMousePosition = Input.mousePosition;
+        }
+        if (Input.GetMouseButton(2))
+        {
+            if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            {
+                Vector3 delta = Input.mousePosition - lastMousePosition;
+                camera.transform.RotateAround(Vector3.zero, new Vector3(delta.y * mouseSensitivity, delta.x * mouseSensitivity), delta.magnitude*0.5f); //TODO: magic numbers
+                lastMousePosition = Input.mousePosition;
+            }
+            else
+            {
+                Vector3 delta = Input.mousePosition - lastMousePosition;
+                camera.transform.Translate(-delta.x * mouseSensitivity, -delta.y * mouseSensitivity, 0);
+                lastMousePosition = Input.mousePosition;
+            }
+
+        }
+        camera.transform.position += camera.transform.forward * Input.mouseScrollDelta.y * 0.4f; //TODO: magic numbers
     }
 }

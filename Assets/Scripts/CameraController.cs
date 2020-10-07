@@ -21,6 +21,11 @@ public class CameraController : MonoBehaviour
         clickedObject = obj;
     }
 
+    public void DestroyClickedObject()
+    {
+        Destroy(clickedObject);
+    }
+
     public void ClearClickedObject()
     {
         clickedObject = null;
