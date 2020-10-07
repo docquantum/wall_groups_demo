@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
@@ -298,6 +299,7 @@ public class SceneController : MonoBehaviour
             }
 
         }
-        camera.transform.position += camera.transform.forward * Input.mouseScrollDelta.y * 0.4f; //TODO: magic numbers
+        if(!mainUIInst.GetComponentInChildren<EventSystem>().IsPointerOverGameObject())
+            camera.transform.position += camera.transform.forward * Input.mouseScrollDelta.y * 0.4f; //TODO: magic numbers
     }
 }
