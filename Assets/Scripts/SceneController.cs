@@ -216,7 +216,8 @@ public class SceneController : MonoBehaviour
         }
 
         combinedObject.GetComponentInChildren<MeshFilter>().mesh.CombineMeshes(combine);
-        combinedObject.SetActive(false);
+        combinedObject.AddComponent<MeshRenderer>();
+        //combinedObject.SetActive(false);
 
         camera.GetComponent<CameraController>().SetClickedObject(combinedObject);
         lastSelTag = obj.tag;

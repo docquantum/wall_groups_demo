@@ -38,6 +38,7 @@ public class CameraController : MonoBehaviour
 
         GameObject obj = clickedObject;
         highlightMaterial.SetPass(0);
+        clickedObject.GetComponentInChildren<MeshRenderer>().material = highlightMaterial;
         Component[] meshes = obj.GetComponentsInChildren<MeshFilter>();
         foreach (MeshFilter m in meshes)
         {
@@ -47,11 +48,10 @@ public class CameraController : MonoBehaviour
 
     Material CreateHighlightMat()
     {
-        Material material = new Material(Shader.Find("Unlit/Transparent Color"));
+        Material material = new Material(Shader.Find("Outlined/Silhouette Only"));
 
-        Color color = Color.green;
-        color.a = .2f;
-        material.color = color;
+        material.color = (Color.red + Color.yellow) * 0.5f;
+        material.SetFloat("_Outline", 0.03f);
 
         return material;
     }
