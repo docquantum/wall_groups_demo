@@ -57,8 +57,8 @@ public class SceneController : MonoBehaviour
             InitializeObjects();
             //CalculateCostAndR();
         }
-        if (objUIPrefab == null)
-            Debug.LogError("No object UI prefab configured!");
+        //if (objUIPrefab == null)
+        //    Debug.LogError("No object UI prefab configured!");
         if (mainUIPrefab == null)
             Debug.LogError("No main UI prefab configured!");
         else
