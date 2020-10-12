@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ public struct SelectAllItem
         this.value = value;
         this.applies = applies;
         uiItem.transform.SetParent(parent.transform);
-        uiItem.GetComponent<RectTransform>().sizeDelta = new Vector2 (150, 20);
+        uiItem.GetComponent<RectTransform>().sizeDelta = new Vector2 (170, 20); //TODO: Magic Numbers!
         uiItem.GetComponentInChildren<Text>().text = value;
         this.uiItem = uiItem;
     }
@@ -29,52 +30,92 @@ public class QuizController : MonoBehaviour
     [SerializeField]
     private Button submitButton;
 
+    private bool submitted = false;
+
+    private Rect resolution;
+
     private void Start()
     {
+        resolution.x = Screen.width;
+        resolution.y = Screen.height;
         InstantiateQuizElements();
+        InvokeRepeating("OnScreenResize", 0, 0.25f);
+    }
+
+    private void OnScreenResize()
+    {
+        if(Screen.width != resolution.x || Screen.height != resolution.y)
+        {
+            resolution.x = Screen.width;
+            resolution.y = Screen.height;
+            gameObject.transform.parent.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, Screen.height / 2.5f);
+        }
     }
 
     public void InstantiateQuizElements()
     {
-        var textComp = InstantiateTextObject("Which of the following are not parts of a typical cavity wall? Select all that apply:");
-        textComp.transform.SetParent(gameObject.transform);
-        //print(gameObject.GetComponent<RectTransform>().rect.width);
-        textComp.GetComponent<RectTransform>().sizeDelta = new Vector2(150, 120);
-        questionOneItems.Add(new SelectAllItem("Brick Veneer", true, Instantiate(uiItemPrefab), gameObject));
-        questionOneItems.Add(new SelectAllItem("Backing", true, Instantiate(uiItemPrefab), gameObject));
-        questionOneItems.Add(new SelectAllItem("Wythes", true, Instantiate(uiItemPrefab), gameObject));
-        questionOneItems.Add(new SelectAllItem("Gypsum board", false, Instantiate(uiItemPrefab), gameObject));
-        questionOneItems.Add(new SelectAllItem("Carpet", false, Instantiate(uiItemPrefab), gameObject));
-        questionOneItems.Add(new SelectAllItem("Reflective surface", false, Instantiate(uiItemPrefab), gameObject));
+        // points = pixels * 72 / 96
+        // pixel = points / (72/Screen.dpi)
+        var questionText = InstantiateTextObject("Which of the following are not parts of a typical cavity wall?\nSelect all that apply:", 18, Color.black);
+        questionText.GetComponent<RectTransform>().sizeDelta = new Vector2(170, 63); //TODO: Magic numbers!
+        questionText.transform.SetParent(gameObject.transform);
+        var noteText = InstantiateTextObject("Note: Correct answers are in red", 12, new Color(0.5f, 0f, 0f));
+        noteText.GetComponent<RectTransform>().sizeDelta = new Vector2(170, 33); //TODO: Magic numbers!
+        noteText.transform.SetParent(gameObject.transform);
+        gameObject.transform.parent.parent.GetComponent<RectTransform>().sizeDelta = new Vector2(0, Screen.height / 2.5f);
+        questionOneItems.Add(new SelectAllItem("Reflective surface", true, Instantiate(uiItemPrefab), gameObject));
+        questionOneItems.Add(new SelectAllItem("Brick Veneer", false, Instantiate(uiItemPrefab), gameObject));
+        questionOneItems.Add(new SelectAllItem("Backing", false, Instantiate(uiItemPrefab), gameObject));
+        questionOneItems.Add(new SelectAllItem("Wythes", false, Instantiate(uiItemPrefab), gameObject));
+        questionOneItems.Add(new SelectAllItem("Gypsum board", true, Instantiate(uiItemPrefab), gameObject));
+        questionOneItems.Add(new SelectAllItem("Carpet", true, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Insulation", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Ties", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Air spacer", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Water barrier", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Wall ties", false, Instantiate(uiItemPrefab), gameObject));
+        questionOneItems.Add(new SelectAllItem("Seismic Damper", true, Instantiate(uiItemPrefab), gameObject));
         submitButton.onClick.AddListener(() => TestSelectAllItemQuiz(questionOneItems));
     }
 
-    private GameObject InstantiateTextObject(string text)
+    private GameObject InstantiateTextObject(string text, int fontSize, Color color)
     {
-        GameObject textObj = new GameObject(text.Substring(0, 10));
+        GameObject textObj = new GameObject(text.Substring(0, 20));
         textObj.AddComponent<RectTransform>();
         textObj.AddComponent<Text>();
         Text textComp = textObj.GetComponent<Text>();
         textComp.text = text;
-        textComp.color = Color.black;
+        textComp.color = color;
         textComp.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-        textComp.fontSize = 18;
+        textComp.fontSize = fontSize;
         return textObj;
     }
 
     public void TestSelectAllItemQuiz(List<SelectAllItem> items)
     {
-        foreach(var item in items)
+        if (!submitted)
         {
-            if(item.uiItem.GetComponent<Toggle>().isOn != item.applies)
+            submitted = true;
+            foreach (var item in items)
             {
-                item.uiItem.GetComponentInChildren<Text>().color = Color.red;
+                if (item.applies)
+                {
+                    item.uiItem.GetComponentInChildren<Text>().color = Color.red;
+                }
             }
+            submitButton.GetComponentInChildren<Text>().text = "Reset";
+        } else
+        {
+            submitted = false;
+            foreach (var item in items)
+            {
+                if (item.applies)
+                {
+                    item.uiItem.GetComponentInChildren<Text>().color = Color.black;
+                }
+            }
+            submitButton.GetComponentInChildren<Text>().text = "Submit";
         }
+        
     }
 }
