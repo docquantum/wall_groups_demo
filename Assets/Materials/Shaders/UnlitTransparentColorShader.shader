@@ -1,6 +1,6 @@
 ﻿Shader "Unlit/Transparent Color" {
     Properties{
-        _Color("Main Color", Color) = (1,1,1,1)
+        _Color("Main Color", Color) = (1,1,1,0.5)
     }
 
         SubShader{
@@ -9,6 +9,7 @@
 
             Pass {
                 //ZWrite Off
+                //Ztest always
                 Blend SrcAlpha OneMinusSrcAlpha
                 CGPROGRAM
                     #pragma vertex vert

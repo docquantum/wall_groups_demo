@@ -9,20 +9,17 @@ using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour
 {
-
-    private Descriptions descriptions;
+    [SerializeField]
+    private GameObject[] objects = null;
 
     [SerializeField]
-    private GameObject[] objects;
+    private Camera camera = null;
 
     [SerializeField]
-    private Camera camera;
+    private GameObject objUIPrefab = null;
 
     [SerializeField]
-    private GameObject objUIPrefab;
-
-    [SerializeField]
-    private GameObject mainUIPrefab;
+    private GameObject mainUIPrefab = null;
 
     [SerializeField] [Range(0f, 1f)]
     private float disableOpacity = .3f;
@@ -32,13 +29,13 @@ public class SceneController : MonoBehaviour
 
     private Dictionary<GameObject, bool> objDict;
 
+    private Dictionary<string, GameObject> combinedDict;
+
+    private HashSet<string> tags;
+
     public static bool test = false;
 
     private List<Toggle> toggleList;
-
-    private float totalCost = 0.0f;
-
-    private float totalR = 0.0f;
 
     private string lastSelTag = "";
 
@@ -48,25 +45,22 @@ public class SceneController : MonoBehaviour
 
     void Start()
     {
-        descriptions = GetComponent<Descriptions>();
         if (camera == null)
             camera = Camera.main;
-        if (objects.Length == 0)
-            Debug.LogError("No objects configured!");
-        else
-        {
-            InitializeObjects();
-            //CalculateCostAndR();
-        }
-        //if (objUIPrefab == null)
-        //    Debug.LogError("No object UI prefab configured!");
+
         if (mainUIPrefab == null)
             Debug.LogError("No main UI prefab configured!");
         else
         {
             InitializeUI();
-            MainUIController();
-        } 
+        }
+
+        if (objects.Length == 0)
+            Debug.LogError("No objects configured!");
+        else
+            InitializeObjects();
+
+        MainUIController();
     }
 
     void Update()
@@ -79,9 +73,11 @@ public class SceneController : MonoBehaviour
      * 1. Traverse through all objects in object list.
      * 2. For every subobject with a mesh, give a mesh collider to allow raycasting
      * 3. Also add the related game object to the object dictionary to allow for enable/disable of object
+     * 4. Create combined meshes for use later
      */
     void InitializeObjects()
     {
+        tags = new HashSet<string>();
         objDict = new Dictionary<GameObject, bool>();
         foreach (var obj in objects)
         {
@@ -91,10 +87,38 @@ public class SceneController : MonoBehaviour
                 if (meshItem.gameObject.GetComponent<MeshCollider>() == null)
                     meshItem.gameObject.AddComponent<MeshCollider>();
                 objDict.Add(meshItem.gameObject, true);
+                if (!tags.Contains(meshItem.tag))
+                    tags.Add(meshItem.tag);
             }
         }
+        GenerateCombinedMeshGroups();
     }
-    
+
+    void GenerateCombinedMeshGroups()
+    {
+        combinedDict = new Dictionary<string, GameObject>();
+        foreach (var tag in tags)
+        {
+            GameObject combinedObject = new GameObject($"Combined {tag} Object");
+            combinedObject.AddComponent<MeshFilter>();
+            combinedObject.AddComponent<MeshRenderer>();
+            List<MeshFilter> allMeshFilters = new List<MeshFilter>();
+            foreach (var keyval in objDict)
+            {
+                if (keyval.Key.tag == tag)
+                {
+                    allMeshFilters.AddRange(keyval.Key.GetComponentsInChildren<MeshFilter>());
+                }
+            }
+
+            Mesh combinedMesh = MeshCombiner.CombineMeshesFromMeshFilters(allMeshFilters.ToArray(), true, true);
+            combinedMesh.name = $"Combined {tag} mesh";
+            combinedObject.GetComponent<MeshFilter>().sharedMesh = combinedMesh;
+            combinedObject.SetActive(false);
+            combinedDict.Add(tag, combinedObject);
+        }
+    }
+
     void InitializeUI()
     {
         mainUIInst = Instantiate(mainUIPrefab);
@@ -111,27 +135,6 @@ public class SceneController : MonoBehaviour
             }
             toggleList.RemoveAll((t) => toRemove.Contains(t));
         }
-    }
-
-    /**
-     * Calculates the total cost and R value given all the objects currently enabled in the scene. 
-     */
-    void CalculateCostAndR()
-    {
-        float newCost = 0f;
-        float newR = 0f;
-        foreach(var obj in objDict)
-        {
-            if(obj.Value)
-            {
-                TagObject tagObj = descriptions.GetStructByTag(obj.Key.tag);
-                newCost += tagObj.cost;
-                newR += tagObj.rVal;
-            }
-        }
-        totalCost = newCost;
-        totalR = newR;
-        MainUIController();
     }
 
     /**
@@ -158,16 +161,6 @@ public class SceneController : MonoBehaviour
         mainUIInst.GetComponentInChildren<Text>().text = builtString;
     }
 
-    void CreateObjectUI(GameObject obj)
-    {
-        if(objUIInst != null)
-            Destroy(objUIInst);
-        TagObject tagObj = descriptions.GetStructByTag(obj.tag);
-        objUIInst = Instantiate(objUIPrefab);
-        objUIInst.GetComponentInChildren<Image>().gameObject.transform.position = camera.WorldToScreenPoint(obj.transform.position);
-        objUIInst.GetComponentInChildren<Text>().text = $"{tagObj.tag}\nCost: ${tagObj.cost:F2}\t R: {tagObj.rVal}\n{tagObj.description}";
-    }
-
     void ObjectSelector()
     {
         if (Input.GetMouseButtonUp(0))
@@ -179,6 +172,10 @@ public class SceneController : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 SelectAllObjects(hit.collider.gameObject);
+            }
+            else
+            {
+                ClearSelectedObject();
             }
         }
         else if (Input.GetMouseButtonDown(1))
@@ -196,60 +193,17 @@ public class SceneController : MonoBehaviour
 
     void SelectAllObjects(GameObject obj)
     {
-        camera.GetComponent<CameraController>().DestroyClickedObject();
-        GameObject combinedObject = new GameObject($"Combined {obj.tag} Object");
-        combinedObject.AddComponent<MeshFilter>();
-        List<MeshFilter> allMeshFilters = new List<MeshFilter>();
-        foreach (var keyval in objDict)
-        {
-            if (keyval.Key.tag == obj.tag)
-            {
-                allMeshFilters.AddRange(keyval.Key.GetComponentsInChildren<MeshFilter>());
-            }
-        }
-       
-        CombineInstance[] combine = new CombineInstance[allMeshFilters.Count];
-        for (int i = 0; i < allMeshFilters.Count; i++)
-        {
-            combine[i].mesh = allMeshFilters[i].mesh;
-            combine[i].transform = allMeshFilters[i].transform.localToWorldMatrix;
-        }
-
-        combinedObject.GetComponentInChildren<MeshFilter>().mesh.CombineMeshes(combine);
-        combinedObject.AddComponent<MeshRenderer>();
-        //combinedObject.SetActive(false);
-
-        camera.GetComponent<CameraController>().SetClickedObject(combinedObject);
+        camera.GetComponent<CameraController>().ClearClickedObject();
+        camera.GetComponent<CameraController>().SetClickedObject(combinedDict[obj.tag]);
         lastSelTag = obj.tag;
         MainUIController();
     }
 
-    /**
-     * Finds the object in the object dictionary
-     * If the object is currently enabled:
-     *      set the opacity to the disable opacity specified.
-     * else:
-     *      set the opacity to 100%.
-     * Once done, flip the current state and recalculate R & Cost.
-     */ 
-    void ToggleObjectExist(GameObject obj)
+    void ClearSelectedObject()
     {
-        bool state = objDict[obj];
-
-        foreach (var meshItem in obj.GetComponentsInChildren<MeshRenderer>())
-        {
-            foreach (var mat in meshItem.materials)
-            {
-                Color newCol = mat.color;
-                if (state)
-                    newCol.a = disableOpacity;
-                else
-                    newCol.a = 1f;
-                mat.color = newCol;
-            }
-        }
-        objDict[obj] = !state;
-        CalculateCostAndR();
+        camera.GetComponent<CameraController>().ClearClickedObject();
+        lastSelTag = "";
+        MainUIController();
     }
 
     void ToggleGroupExists(string tag)

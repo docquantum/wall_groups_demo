@@ -19,6 +19,7 @@ public class CameraController : MonoBehaviour
     public void SetClickedObject(GameObject obj)
     {
         clickedObject = obj;
+        clickedObject.SetActive(true);
     }
 
     public void DestroyClickedObject()
@@ -28,6 +29,8 @@ public class CameraController : MonoBehaviour
 
     public void ClearClickedObject()
     {
+        if(clickedObject != null)
+            clickedObject.SetActive(false);
         clickedObject = null;
     }
 
@@ -48,10 +51,16 @@ public class CameraController : MonoBehaviour
 
     Material CreateHighlightMat()
     {
-        Material material = new Material(Shader.Find("Outlined/Silhouette Only"));
+        //Material material = new Material(Shader.Find("Outlined/Silhouette Only"));
+        Material material = new Material(Shader.Find("Unlit/Transparent Color"));
 
-        material.color = (Color.red + Color.yellow) * 0.5f;
-        material.SetFloat("_Outline", 0.03f);
+        //Texture2D tex = new Texture2D(1, 1);
+        //tex.SetPixel(0, 0, (Color.red + Color.yellow) * 0.5f);
+        //tex.Apply();
+        Color color = (Color.red + Color.yellow) * 0.5f;
+        color.a = 0.3f;
+        material.SetColor("_Color", color);
+        //material.SetFloat("_Cutoff", 0.5f);
 
         return material;
     }

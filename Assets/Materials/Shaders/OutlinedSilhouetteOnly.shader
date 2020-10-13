@@ -1,15 +1,17 @@
 ﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Outlined/Silhouette Only" {
 	Properties{
 		_Color("Outline Color", Color) = (0,0,0,1)
-		_Outline("Outline width", Range(0.0, 0.03)) = .005
+		_Outline("Outline width", Range(0.0, 0.05)) = .05
 	}
 
-		CGINCLUDE
+	CGINCLUDE
 	#include "UnityCG.cginc"
 
-		struct appdata {
+	struct appdata {
 		float4 vertex : POSITION;
 		float3 normal : NORMAL;
 	};
@@ -27,8 +29,8 @@ Shader "Outlined/Silhouette Only" {
 		v2f o;
 		o.pos = UnityObjectToClipPos(v.vertex);
 
-		float3 norm = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
-		float2 offset = TransformViewToProjection(norm.xy);
+		//float3 norm = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+		float2 offset = TransformViewToProjection(v.normal.xy);
 
 		o.pos.xy += offset * o.pos.z * _Outline;
 		o.color = _Color;
@@ -36,22 +38,20 @@ Shader "Outlined/Silhouette Only" {
 	}
 	ENDCG
 
-		SubShader{
-			Tags { "Queue" = "Transparent" }
+	SubShader{
+		Tags { "Queue" = "Transparent" }
 
-			Pass {
-				Name "BASE"
-				Cull Back
-				Blend Zero One
+		Pass {
+			Name "BASE"
+			Cull Back
+			Blend Zero One
+			Offset -8, -8
 
-		// uncomment this to hide inner details:
-		//Offset -8, -8
-
-		SetTexture[_Color] {
-			ConstantColor(0,0,0,0)
-			Combine constant
+			SetTexture[_Color] {
+				ConstantColor(0,0,0,0)
+				Combine constant
+			}
 		}
-	}
 
 		// note that a vertex shader is specified here but its using the one above
 		Pass {
@@ -59,21 +59,21 @@ Shader "Outlined/Silhouette Only" {
 			Tags { "LightMode" = "Always" }
 			Cull Front
 
-		// you can choose what kind of blending mode you want for the outline
-		//Blend SrcAlpha OneMinusSrcAlpha // Normal
-		//Blend One One // Additive
-		Blend One OneMinusDstColor // Soft Additive
-		//Blend DstColor Zero // Multiplicative
-		//Blend DstColor SrcColor // 2x Multiplicative
+			// you can choose what kind of blending mode you want for the outline
+			Blend SrcAlpha OneMinusSrcAlpha // Normal
+			//Blend One One // Additive
+			//Blend One OneMinusDstColor // Soft Additive
+			//Blend DstColor Zero // Multiplicative
+			//Blend DstColor SrcColor // 2x Multiplicative
 
-		CGPROGRAM
-		#pragma vertex vert
-		#pragma fragment frag
+			CGPROGRAM
+			#pragma vertex vert
+			#pragma fragment frag
 
-		half4 frag(v2f i) :COLOR {
-			return i.color;
-		}
-		ENDCG
+			half4 frag(v2f i) :COLOR {
+				return i.color;
+			}
+			ENDCG
 		}
 	}
 	Fallback "Diffuse"

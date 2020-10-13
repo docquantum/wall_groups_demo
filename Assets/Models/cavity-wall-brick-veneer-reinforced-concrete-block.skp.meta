@@ -150,7 +150,7 @@ SketchUpImporter:
   meshes:
     lODScreenPercentages: []
     globalScale: 0.0254
-    meshCompression: 0
+    meshCompression: 3
     addColliders: 1
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1

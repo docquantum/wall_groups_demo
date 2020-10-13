@@ -25,10 +25,10 @@ public class QuizController : MonoBehaviour
     public List<SelectAllItem> questionOneItems = new List<SelectAllItem>();
 
     [SerializeField]
-    private GameObject uiItemPrefab;
+    private GameObject uiItemPrefab = null;
 
     [SerializeField]
-    private Button submitButton;
+    private Button submitButton = null;
 
     private bool submitted = false;
 

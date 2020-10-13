@@ -1591,7 +1591,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 215, y: 65}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3299663438927083558
 CanvasRenderer:
@@ -1633,14 +1633,19 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Instructions:
+  m_Text: '<b>Instructions:</b>
 
-    Move Wall: Middle mouse
+    <i>Move Wall:</i> Middle Click
 
-    Rotate Wall: Shift + Middle
-    mouse
+    <i>Rotate
+    Wall:</i> Shift + Middle Click
 
-    Zoom In/Out: Scroll Wheel'
+    <i>Zoom In/Out:</i> Scroll Wheel
+
+    <i>Select
+    Object:</i> Left Click
+
+    <i>Hide Object:</i> Right Click'
 --- !u!1 &2367997885874565526
 GameObject:
   m_ObjectHideFlags: 0
@@ -3520,8 +3525,8 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
-  m_ChildControlWidth: 0
-  m_ChildControlHeight: 0
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
 --- !u!114 &1500289761622725933
