@@ -4,14 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Reinforcements
-  - Bond Beams
   - Thin Foam
   - Thick Foam
-  - Cinder Blocks
   - Bricks
   - Pintel Ties
   - Misc Objects
+  - CMU blocks
   layers:
   - Default
   - TransparentFX

@@ -67,7 +67,6 @@ public class QuizController : MonoBehaviour
         questionOneItems.Add(new SelectAllItem("Brick Veneer", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Backing", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Wythes", false, Instantiate(uiItemPrefab), gameObject));
-        questionOneItems.Add(new SelectAllItem("Gypsum board", true, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Carpet", true, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Insulation", false, Instantiate(uiItemPrefab), gameObject));
         questionOneItems.Add(new SelectAllItem("Ties", false, Instantiate(uiItemPrefab), gameObject));

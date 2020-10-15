@@ -360,15 +360,220 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 175812526561423513, guid: cf2590acaed2d224da7498ad86139856,
+    - target: {fileID: 20444827566431519, guid: cf2590acaed2d224da7498ad86139856,
         type: 3}
-      propertyPath: m_Convex
-      value: 0
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 28149746572451130, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 138087239455817075, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 404513846089856604, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 614817433040154432, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_Name
+      value: CMUblocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 619631186602292944, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 853343119516728625, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 855251176158922640, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1007820668512933658, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042276750284636823, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1112157230529769075, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1236176668750174489, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359377685149572263, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1503477907210927884, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1619341828339283451, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 1655560422644179256, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028458010960257871, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 2159859969150450864, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502542536041210123, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 2597652520436308816, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3077191926349644818, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3338827894421149481, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3372424894625941619, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3616764056942741091, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3721079528621514981, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3858175534582280199, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 3949566717830458305, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4007204932324256422, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4022259577608910801, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4311550080512648707, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4712754660887388120, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4723504791809088271, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 4908293126072599468, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 5151194623218120230, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
       objectReference: {fileID: 0}
     - target: {fileID: 5343514201642526395, guid: cf2590acaed2d224da7498ad86139856,
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5496260629228283363, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603306253406514900, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 5750328358325317716, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 6005747069405293157, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535511574196722216, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 6763398814329349120, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 6899931559432232976, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7008221922293608024, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
       objectReference: {fileID: 0}
     - target: {fileID: 7082356163980310360, guid: cf2590acaed2d224da7498ad86139856,
         type: 3}
@@ -425,15 +630,105 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7239190208476156926, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7432479447918612307, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7479272406985558985, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7482901248544538478, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
     - target: {fileID: 7566687034810068450, guid: cf2590acaed2d224da7498ad86139856,
         type: 3}
       propertyPath: m_Name
       value: WallModel
       objectReference: {fileID: 0}
-    - target: {fileID: 7566687034810068450, guid: cf2590acaed2d224da7498ad86139856,
+    - target: {fileID: 7573067143718850387, guid: cf2590acaed2d224da7498ad86139856,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713822805214201068, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7842357414364524121, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860727956362283016, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8093077817428759520, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8313492128235971281, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368502520520157785, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8585589355309898637, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8656183325791599438, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8783723192425911378, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828804151718442299, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8851808327893749940, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8875117978015544674, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 8932829304384802563, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
+      objectReference: {fileID: 0}
+    - target: {fileID: 9146053810321970547, guid: cf2590acaed2d224da7498ad86139856,
+        type: 3}
+      propertyPath: m_TagString
+      value: CMU blocks
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5343514201642526395, guid: cf2590acaed2d224da7498ad86139856, type: 3}
